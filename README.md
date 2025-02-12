@@ -1,62 +1,97 @@
+# Ollama Docker Compose Setup
 
+Welcome to the Ollama Docker Compose Setup! This project simplifies the deployment of Ollama using Docker Compose, making it easy to run Ollama with all its dependencies in a containerized environment.
+[![Star History Chart](https://api.star-history.com/svg?repos=valiantlynx/ollama-docker&type=Date)](https://star-history.com/#valiantlynx/ollama-docker&Date)
 
-# 🐳 Ollama Docker Image  
+## Getting Started
 
-Ollama makes it easy to run **large language models (LLMs) locally** using **Docker**. This setup supports **CPU, NVIDIA GPU, and AMD GPU** configurations for optimal performance.  
+### Prerequisites
+Make sure you have the following prerequisites installed on your machine:
 
-🔗 **[Ollama GitHub](https://github.com/ollama/ollama)** |
+- Docker
+- Docker Compose
 
-## 🚀 Quick Start  
+#### GPU Support (Optional)
 
-### 🖥️ CPU-Only Setup  
-Run Ollama in a Docker container without GPU support:  
+If you have a GPU and want to leverage its power within a Docker container, follow these steps to install the NVIDIA Container Toolkit:
+
 ```bash
-docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-```  
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
 
-### ⚡ NVIDIA GPU Setup  
-1. **Install NVIDIA Container Toolkit**  
-   - **Debian/Ubuntu**  
-     ```bash
-     curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
-         | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-     curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
-         | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
-         | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-     sudo apt-get update
-     sudo apt-get install -y nvidia-container-toolkit
-     ```  
-   - **CentOS/Fedora**  
-     ```bash
-     curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo \
-         | sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
-     sudo yum install -y nvidia-container-toolkit
-     ```  
-2. **Configure Docker to use NVIDIA runtime**  
-   ```bash
-   sudo nvidia-ctk runtime configure --runtime=docker
-   sudo systemctl restart docker
-   ```  
-3. **Start Ollama with NVIDIA GPU support**  
-   ```bash
-   docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-   ```  
+# Configure NVIDIA Container Toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
 
-### 🔥 AMD GPU Setup (ROCm)  
-Run Ollama with AMD GPU support using ROCm:  
+# Test GPU integration
+docker run --gpus all nvidia/cuda:11.5.2-base-ubuntu20.04 nvidia-smi
+```
+
+### Configuration
+
+1. Clone the Docker Compose repository:
+
+    ```bash
+    git clone https://github.com/valiantlynx/ollama-docker.git
+    ```
+
+2. Change to the project directory:
+
+    ```bash
+    cd ollama-docker
+    ```
+
+## Usage
+
+Start Ollama and its dependencies using Docker Compose:
+
+if gpu is configured
 ```bash
-docker run -d --device /dev/kfd --device /dev/dri -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:rocm
-```  
+docker-compose -f docker-compose-ollama-gpu.yaml up -d
+```
 
-## 🤖 Running a Model  
-Once the container is running, execute models inside it:  
+else
 ```bash
-docker exec -it ollama ollama run llama3
-```  
+docker-compose up -d
+```
 
-### 📌 Explore More Models  
-Discover additional models in the **[Ollama Model Library](https://ollama.ai/library)**.  
+Visit [http://localhost:8080](http://localhost:8080) in your browser to access Ollama-webui.
 
-🚀 Get started today and run LLMs with **Ollama on Docker** effortlessly!  
+### Model Installation
 
----
+Navigate to settings -> model and install a model (e.g., llava-phi3). This may take a couple of minutes, but afterward, you can use it just like ChatGPT.
+
+### Explore Langchain and Ollama
+
+You can explore Langchain and Ollama within the project. A third container named **app** has been created for this purpose. Inside, you'll find some examples.
+
+### Devcontainer and Virtual Environment
+
+The **app** container serves as a devcontainer, allowing you to boot into it for experimentation. Additionally, the run.sh file contains code to set up a virtual environment if you prefer not to use Docker for your development environment.
+if you have vs code and the `Remote Development´ extension simply opening this project from the root will make vscode ask you to reopen in container
+## Stop and Cleanup
+
+To stop the containers and remove the network:
+
+```bash
+docker-compose down
+```
+
+## Contributing
+
+We welcome contributions! If you'd like to contribute to the Ollama Docker Compose Setup, please follow our [Contribution Guidelines](CONTRIBUTING.md).
+
+
+## License
+
+This project is licensed under the [RSOSL](LICENSE). Feel free to use, modify, and distribute it according to the terms of the license. Just give me a mention and some credit
+
+## Contact
+
+If you have any questions or concerns, please contact us at [vantlynxz@gmail.com](mailto:vantlynxz@gmail.com).
+
+Enjoy using Ollama with Docker Compose! 🐳🚀
