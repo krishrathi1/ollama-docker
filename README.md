@@ -1,6 +1,4 @@
-Here’s a well-structured GitHub description for running **Ollama** on **Docker**, incorporating all the provided details:  
 
----
 
 # 🐳 Ollama Docker Image  
 
