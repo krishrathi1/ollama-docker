@@ -4,7 +4,7 @@
 
 Ollama makes it easy to run **large language models (LLMs) locally** using **Docker**. This setup supports **CPU, NVIDIA GPU, and AMD GPU** configurations for optimal performance.  
 
-🔗 **[Ollama GitHub](https://github.com/ollama/ollama)** | 💬 **[Join Discord](#)**  
+🔗 **[Ollama GitHub](https://github.com/ollama/ollama)** |
 
 ## 🚀 Quick Start  
 
