@@ -1,4 +1,4 @@
-# Ollama Docker Compose Setup 
+ # Ollama Docker Compose Setup 
 
 Welcome to the Ollama Docker Compose Setup! This project simplifies the deployment of Ollama using Docker Compose, making it easy to run Ollama with all its dependencies in a containerized  environment.
 [![Star History Chart](https://api.star-history.com/svg?repos=valiantlynx/ollama-docker&type=Date)](https://star-history.com/#valiantlynx/ollama-docker&Date)
